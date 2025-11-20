@@ -1,16 +1,16 @@
 # Backend API Documentation
 
-个人作品集网站后端 API 接口文档
+Personal Portfolio Website Backend API Documentation
 
-## 基础信息
+## Basic Information
 
 - **Base URL**: `https://your-domain.com/api`
-- **认证方式**: Bearer Token (JWT)
-- **响应格式**: JSON
+- **Authentication**: Bearer Token (JWT)
+- **Response Format**: JSON
 
-## 认证说明
+## Authentication
 
-对于需要认证的接口，需要在请求头中包含 JWT Token：
+For endpoints requiring authentication, include JWT Token in the request header:
 
 ```
 Authorization: Bearer <your_jwt_token>
@@ -18,52 +18,26 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-## API 接口列表
+## API Endpoints
 
-### 1. 用户认证 (User Authentication)
+### 1. User Authentication
 
-#### 1.1 用户注册
+#### 1.1 Register User
 
-- **接口**: `POST /api/users/register`
-- **权限**: 公开
-- **用途**: 注册新用户账号
+- **Endpoint**: `POST /api/users/register`
+- **Access**: Public
+- **Purpose**: Register a new user account
 
-**请求体**:
+**Request Body**:
 ```json
 {
-  "username": "string (必填)",
-  "email": "string (必填)",
-  "password": "string (必填)"
+  "username": "string (required)",
+  "email": "string (required)",
+  "password": "string (required)"
 }
 ```
 
-**响应示例**:
-```json
-{
-  "_id": "user_id",
-  "username": "testuser",
-  "email": "test@example.com",
-  "token": "jwt_token_string"
-}
-```
-
----
-
-#### 1.2 用户登录
-
-- **接口**: `POST /api/users/login`
-- **权限**: 公开
-- **用途**: 用户登录，获取 JWT Token
-
-**请求体**:
-```json
-{
-  "email": "string (必填)",
-  "password": "string (必填)"
-}
-```
-
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "user_id",
@@ -75,15 +49,41 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 1.3 获取当前用户信息
+#### 1.2 User Login
 
-- **接口**: `GET /api/users/me`
-- **权限**: 需要认证
-- **用途**: 获取当前登录用户的详细信息
+- **Endpoint**: `POST /api/users/login`
+- **Access**: Public
+- **Purpose**: User login to obtain JWT Token
 
-**请求参数**: 无
+**Request Body**:
+```json
+{
+  "email": "string (required)",
+  "password": "string (required)"
+}
+```
 
-**响应示例**:
+**Response Example**:
+```json
+{
+  "_id": "user_id",
+  "username": "testuser",
+  "email": "test@example.com",
+  "token": "jwt_token_string"
+}
+```
+
+---
+
+#### 1.3 Get Current User
+
+- **Endpoint**: `GET /api/users/me`
+- **Access**: Authentication Required
+- **Purpose**: Get detailed information of the currently logged-in user
+
+**Request Parameters**: None
+
+**Response Example**:
 ```json
 {
   "_id": "user_id",
@@ -96,23 +96,23 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-### 2. 项目管理 (Projects)
+### 2. Project Management
 
-#### 2.1 获取所有项目
+#### 2.1 Get All Projects
 
-- **接口**: `GET /api/projects`
-- **权限**: 公开
-- **用途**: 获取所有项目列表
+- **Endpoint**: `GET /api/projects`
+- **Access**: Public
+- **Purpose**: Get list of all projects
 
-**请求参数**: 无
+**Request Parameters**: None
 
-**响应示例**:
+**Response Example**:
 ```json
 [
   {
     "_id": "project_id",
-    "title": "项目标题",
-    "description": "项目描述",
+    "title": "Project Title",
+    "description": "Project Description",
     "imageUrl": "https://example.com/image.jpg",
     "repoUrl": "https://github.com/user/repo",
     "liveUrl": "https://example.com",
@@ -129,21 +129,21 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 2.2 获取单个项目
+#### 2.2 Get Single Project
 
-- **接口**: `GET /api/projects/:id`
-- **权限**: 公开
-- **用途**: 根据项目 ID 获取项目详情
+- **Endpoint**: `GET /api/projects/:id`
+- **Access**: Public
+- **Purpose**: Get project details by project ID
 
-**URL 参数**:
-- `id`: 项目 ID (必填)
+**URL Parameters**:
+- `id`: Project ID (required)
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "project_id",
-  "title": "项目标题",
-  "description": "项目描述",
+  "title": "Project Title",
+  "description": "Project Description",
   "imageUrl": "https://example.com/image.jpg",
   "repoUrl": "https://github.com/user/repo",
   "liveUrl": "https://example.com",
@@ -159,29 +159,29 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 2.3 创建新项目
+#### 2.3 Create New Project
 
-- **接口**: `POST /api/projects`
-- **权限**: 需要认证
-- **用途**: 创建新的项目
+- **Endpoint**: `POST /api/projects`
+- **Access**: Authentication Required
+- **Purpose**: Create a new project
 
-**请求体**:
+**Request Body**:
 ```json
 {
-  "title": "string (必填)",
-  "description": "string (必填)",
-  "imageUrl": "string (可选)",
-  "repoUrl": "string (可选)",
-  "liveUrl": "string (可选)"
+  "title": "string (required)",
+  "description": "string (required)",
+  "imageUrl": "string (optional)",
+  "repoUrl": "string (optional)",
+  "liveUrl": "string (optional)"
 }
 ```
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "project_id",
-  "title": "新项目",
-  "description": "项目描述",
+  "title": "New Project",
+  "description": "Project Description",
   "imageUrl": "https://example.com/image.jpg",
   "repoUrl": "https://github.com/user/repo",
   "liveUrl": "https://example.com",
@@ -193,16 +193,16 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 2.4 更新项目
+#### 2.4 Update Project
 
-- **接口**: `PUT /api/projects/:id`
-- **权限**: 需要认证（仅项目创建者）
-- **用途**: 更新项目信息
+- **Endpoint**: `PUT /api/projects/:id`
+- **Access**: Authentication Required (Project Creator Only)
+- **Purpose**: Update project information
 
-**URL 参数**:
-- `id`: 项目 ID (必填)
+**URL Parameters**:
+- `id`: Project ID (required)
 
-**请求体** (所有字段可选):
+**Request Body** (all fields optional):
 ```json
 {
   "title": "string",
@@ -213,12 +213,12 @@ Authorization: Bearer <your_jwt_token>
 }
 ```
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "project_id",
-  "title": "更新后的标题",
-  "description": "更新后的描述",
+  "title": "Updated Title",
+  "description": "Updated Description",
   "imageUrl": "https://example.com/new-image.jpg",
   "repoUrl": "https://github.com/user/repo",
   "liveUrl": "https://example.com",
@@ -230,16 +230,16 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 2.5 删除项目
+#### 2.5 Delete Project
 
-- **接口**: `DELETE /api/projects/:id`
-- **权限**: 需要认证（仅项目创建者）
-- **用途**: 删除指定项目
+- **Endpoint**: `DELETE /api/projects/:id`
+- **Access**: Authentication Required (Project Creator Only)
+- **Purpose**: Delete specified project
 
-**URL 参数**:
-- `id`: 项目 ID (必填)
+**URL Parameters**:
+- `id`: Project ID (required)
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "message": "Project deleted successfully"
@@ -248,23 +248,23 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-### 3. 博客管理 (Blog)
+### 3. Blog Management
 
-#### 3.1 获取所有博客文章
+#### 3.1 Get All Blog Posts
 
-- **接口**: `GET /api/blog`
-- **权限**: 公开
-- **用途**: 获取所有博客文章列表
+- **Endpoint**: `GET /api/blog`
+- **Access**: Public
+- **Purpose**: Get list of all blog posts
 
-**请求参数**: 无
+**Request Parameters**: None
 
-**响应示例**:
+**Response Example**:
 ```json
 [
   {
     "_id": "post_id",
-    "title": "博客标题",
-    "content": "博客内容",
+    "title": "Blog Title",
+    "content": "Blog Content",
     "author": {
       "_id": "user_id",
       "username": "testuser",
@@ -278,21 +278,21 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 3.2 获取单篇博客文章
+#### 3.2 Get Single Blog Post
 
-- **接口**: `GET /api/blog/:id`
-- **权限**: 公开
-- **用途**: 根据文章 ID 获取博客详情（包含评论）
+- **Endpoint**: `GET /api/blog/:id`
+- **Access**: Public
+- **Purpose**: Get blog post details by post ID (including comments)
 
-**URL 参数**:
-- `id`: 文章 ID (必填)
+**URL Parameters**:
+- `id`: Post ID (required)
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "post_id",
-  "title": "博客标题",
-  "content": "博客内容",
+  "title": "Blog Title",
+  "content": "Blog Content",
   "author": {
     "_id": "user_id",
     "username": "testuser",
@@ -301,7 +301,7 @@ Authorization: Bearer <your_jwt_token>
   "comments": [
     {
       "_id": "comment_id",
-      "body": "评论内容",
+      "body": "Comment Content",
       "author": {
         "_id": "user_id",
         "username": "commenter",
@@ -318,26 +318,26 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 3.3 创建博客文章
+#### 3.3 Create Blog Post
 
-- **接口**: `POST /api/blog`
-- **权限**: 需要认证
-- **用途**: 发布新的博客文章
+- **Endpoint**: `POST /api/blog`
+- **Access**: Authentication Required
+- **Purpose**: Publish a new blog post
 
-**请求体**:
+**Request Body**:
 ```json
 {
-  "title": "string (必填)",
-  "content": "string (必填)"
+  "title": "string (required)",
+  "content": "string (required)"
 }
 ```
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "post_id",
-  "title": "新博客",
-  "content": "博客内容",
+  "title": "New Blog",
+  "content": "Blog Content",
   "author": {
     "_id": "user_id",
     "username": "testuser",
@@ -350,16 +350,16 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 3.4 更新博客文章
+#### 3.4 Update Blog Post
 
-- **接口**: `PUT /api/blog/:id`
-- **权限**: 需要认证（仅文章作者）
-- **用途**: 更新博客文章内容
+- **Endpoint**: `PUT /api/blog/:id`
+- **Access**: Authentication Required (Post Author Only)
+- **Purpose**: Update blog post content
 
-**URL 参数**:
-- `id`: 文章 ID (必填)
+**URL Parameters**:
+- `id`: Post ID (required)
 
-**请求体** (所有字段可选):
+**Request Body** (all fields optional):
 ```json
 {
   "title": "string",
@@ -367,12 +367,12 @@ Authorization: Bearer <your_jwt_token>
 }
 ```
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "post_id",
-  "title": "更新后的标题",
-  "content": "更新后的内容",
+  "title": "Updated Title",
+  "content": "Updated Content",
   "author": {
     "_id": "user_id",
     "username": "testuser",
@@ -385,16 +385,16 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 3.5 删除博客文章
+#### 3.5 Delete Blog Post
 
-- **接口**: `DELETE /api/blog/:id`
-- **权限**: 需要认证（仅文章作者）
-- **用途**: 删除指定博客文章（同时删除所有评论）
+- **Endpoint**: `DELETE /api/blog/:id`
+- **Access**: Authentication Required (Post Author Only)
+- **Purpose**: Delete specified blog post (also deletes all comments)
 
-**URL 参数**:
-- `id`: 文章 ID (必填)
+**URL Parameters**:
+- `id`: Post ID (required)
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "message": "Blog post deleted successfully"
@@ -403,23 +403,23 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-### 4. 评论管理 (Comments)
+### 4. Comment Management
 
-#### 4.1 获取文章评论
+#### 4.1 Get Post Comments
 
-- **接口**: `GET /api/blog/:postId/comments`
-- **权限**: 公开
-- **用途**: 获取指定文章的所有评论
+- **Endpoint**: `GET /api/blog/:postId/comments`
+- **Access**: Public
+- **Purpose**: Get all comments for specified post
 
-**URL 参数**:
-- `postId`: 文章 ID (必填)
+**URL Parameters**:
+- `postId`: Post ID (required)
 
-**响应示例**:
+**Response Example**:
 ```json
 [
   {
     "_id": "comment_id",
-    "body": "评论内容",
+    "body": "Comment Content",
     "author": {
       "_id": "user_id",
       "username": "commenter",
@@ -434,27 +434,27 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 4.2 创建评论
+#### 4.2 Create Comment
 
-- **接口**: `POST /api/blog/:postId/comments`
-- **权限**: 需要认证
-- **用途**: 为指定文章添加评论
+- **Endpoint**: `POST /api/blog/:postId/comments`
+- **Access**: Authentication Required
+- **Purpose**: Add a comment to specified post
 
-**URL 参数**:
-- `postId`: 文章 ID (必填)
+**URL Parameters**:
+- `postId`: Post ID (required)
 
-**请求体**:
+**Request Body**:
 ```json
 {
-  "body": "string (必填)"
+  "body": "string (required)"
 }
 ```
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "_id": "comment_id",
-  "body": "评论内容",
+  "body": "Comment Content",
   "author": {
     "_id": "user_id",
     "username": "testuser",
@@ -468,32 +468,32 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-### 5. 联系表单 (Contact)
+### 5. Contact Form
 
-#### 5.1 提交联系表单
+#### 5.1 Submit Contact Form
 
-- **接口**: `POST /api/contact`
-- **权限**: 公开
-- **用途**: 提交联系消息
+- **Endpoint**: `POST /api/contact`
+- **Access**: Public
+- **Purpose**: Submit contact message
 
-**请求体**:
+**Request Body**:
 ```json
 {
-  "name": "string (必填)",
-  "email": "string (必填)",
-  "message": "string (必填)"
+  "name": "string (required)",
+  "email": "string (required)",
+  "message": "string (required)"
 }
 ```
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "message": "Message sent successfully",
   "data": {
     "_id": "message_id",
-    "name": "张三",
-    "email": "zhangsan@example.com",
-    "message": "这是一条联系消息",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "message": "This is a contact message",
     "createdAt": "2024-01-01T00:00:00.000Z"
   }
 }
@@ -501,22 +501,22 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-#### 5.2 获取所有联系消息
+#### 5.2 Get All Contact Messages
 
-- **接口**: `GET /api/contact`
-- **权限**: 需要认证（管理员）
-- **用途**: 获取所有联系表单提交的消息
+- **Endpoint**: `GET /api/contact`
+- **Access**: Authentication Required (Admin)
+- **Purpose**: Get all contact form submissions
 
-**请求参数**: 无
+**Request Parameters**: None
 
-**响应示例**:
+**Response Example**:
 ```json
 [
   {
     "_id": "message_id",
-    "name": "张三",
-    "email": "zhangsan@example.com",
-    "message": "这是一条联系消息",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "message": "This is a contact message",
     "createdAt": "2024-01-01T00:00:00.000Z",
     "updatedAt": "2024-01-01T00:00:00.000Z"
   }
@@ -525,17 +525,17 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-### 6. 健康检查 (Health Check)
+### 6. Health Check
 
-#### 6.1 服务器健康检查
+#### 6.1 Server Health Check
 
-- **接口**: `GET /api/health`
-- **权限**: 公开
-- **用途**: 检查服务器运行状态
+- **Endpoint**: `GET /api/health`
+- **Access**: Public
+- **Purpose**: Check server running status
 
-**请求参数**: 无
+**Request Parameters**: None
 
-**响应示例**:
+**Response Example**:
 ```json
 {
   "status": "OK",
@@ -545,90 +545,90 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-## 错误响应格式
+## Error Response Format
 
-所有错误响应都遵循以下格式：
+All error responses follow this format:
 
 ```json
 {
-  "message": "错误描述信息"
+  "message": "Error description"
 }
 ```
 
-### 常见 HTTP 状态码
+### Common HTTP Status Codes
 
-- `200 OK`: 请求成功
-- `201 Created`: 资源创建成功
-- `400 Bad Request`: 请求参数错误
-- `401 Unauthorized`: 未授权，需要登录
-- `403 Forbidden`: 没有权限访问
-- `404 Not Found`: 资源不存在
-- `500 Internal Server Error`: 服务器内部错误
-
----
-
-## 技术栈
-
-- **框架**: Express.js
-- **数据库**: MongoDB (Mongoose)
-- **认证**: JWT (jsonwebtoken)
-- **安全**: Helmet, CORS
-- **环境变量**: dotenv
+- `200 OK`: Request successful
+- `201 Created`: Resource created successfully
+- `400 Bad Request`: Invalid request parameters
+- `401 Unauthorized`: Authentication required
+- `403 Forbidden`: No permission to access
+- `404 Not Found`: Resource not found
+- `500 Internal Server Error`: Server internal error
 
 ---
 
-## 环境配置
+## Tech Stack
 
-创建 `.env` 文件并配置以下环境变量：
+- **Framework**: Express.js
+- **Database**: MongoDB (Mongoose)
+- **Authentication**: JWT (jsonwebtoken)
+- **Security**: Helmet, CORS
+- **Environment Variables**: dotenv
+
+---
+
+## Environment Configuration
+
+Create a `.env` file and configure the following environment variables:
 
 ```env
-# MongoDB 连接字符串
+# MongoDB connection string
 MONGODB_URI=your_mongodb_connection_string
 
-# JWT 密钥
+# JWT secret key
 JWT_SECRET=your_jwt_secret_key
 
-# 服务器端口
+# Server port
 PORT=5000
 
-# 运行环境
+# Runtime environment
 NODE_ENV=development
 ```
 
 ---
 
-## 本地开发
+## Local Development
 
-### 安装依赖
+### Install Dependencies
 ```bash
 npm install
 ```
 
-### 启动开发服务器
+### Start Development Server
 ```bash
 npm start
 ```
 
-### 生产环境部署
+### Production Deployment
 ```bash
 npm run deploy
 ```
 
 ---
 
-## 部署说明
+## Deployment Instructions
 
-本项目已配置 Vercel 部署支持，`vercel.json` 配置文件已包含在项目中。
+This project is configured for Vercel deployment with the `vercel.json` configuration file included.
 
 ---
 
-## 许可证
+## License
 
 MIT License
 
 ---
 
-## 联系方式
+## Contact
 
-如有问题或建议，请通过以下方式联系：
+For questions or suggestions, please contact via:
 - GitHub: [https://github.com/zzzzzzssss123/backend-1](https://github.com/zzzzzzssss123/backend-1)
